@@ -40,10 +40,11 @@ app.use(
     })
 );
 
+app.use(express.json());
+
 // Inisiasi routes
 app.use("/users", require("./routes/routes"));
 
-app.use(express.json());
 
 // For Error responses
 app.use(errors.errorHandler);
