@@ -1,20 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
 require("dotenv").config();
 const db_Config = require('./config/Database');
 
 const auth = require('./middlewares/auth.js');
 const errors = require("./middlewares/errors.js");
-
 const unless = require('express-unless');
 
 const app = express();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(db_Config.db, {
+    useNewUrlParser: true,
     useUnifiedTopology: true,
-    useNewUrlParser: true, // Set useNewUrlParser TRUE
 })
 .then( 
     ()=> { console.log("Database Connected"); },
@@ -40,10 +38,12 @@ app.use(
     })
 );
 
-// Inisiasi routes
-app.use("/users", require("./routes/routes"));
 
 app.use(express.json());
+
+
+// Inisiasi routes
+app.use("/users", require("./routes/routes"));
 
 // For Error responses
 app.use(errors.errorHandler);
